@@ -80,7 +80,7 @@ def predict(clf,news):
     case = pd.DataFrame(news_vect, columns=vectorizer.get_feature_names_out())
     single_prediction = clf.predict(case)
     predict_data = {
-        "News title": news,
+        "News title": news_cleaned,
         "True news": "True" if single_prediction==1 else "Fake",
     }
 

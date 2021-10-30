@@ -27,14 +27,13 @@ def predict(title):
    
 @app.route("/makepredict", methods=['POST'])
 def makepredict():
-    """Predicts the Height of MLB Players"""
     clf,train_accur,test_accur=mllib.fit_model()
     print("training accuracy_score:",train_accur )
     print("test accuracy_score:", test_accur)
     
     json_payload = request.json
     LOG.info(f"JSON payload: {json_payload}")
-    title= request.form['title']
+    title = json_payload['title']
     prediction = mllib.predict(clf,title)
     return jsonify({'prediction': prediction})
 
