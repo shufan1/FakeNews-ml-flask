@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-# Build image
-#change tag for new container registery, gcr.io/bob
-docker build --tag fakenews_ml_flask .
+#bash: take a image label variable
+export imagetag="fakenews_ml_flask"
+# remove image. prune dangling imagesBuild image
+docker rmi -f $imagetag:latest
+docker system prune -f
+docker build --tag $imagetag .
 
 # List docker images
 docker image ls
 
 # Run flask app
-docker run --rm -d -v `pwd`:/app -p 8080:8080 fakenews_ml_flask
+docker run -p 127.0.0.1:8080:8080 $imagetag

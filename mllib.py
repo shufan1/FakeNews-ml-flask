@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score,classification_report
+from joblib import load, dump
 
 nltk.download('wordnet')
 nltk.download('stopwords')
@@ -69,9 +70,20 @@ def fit_model():
     y_pred_train = clf.predict(X_train_vect)
     y_pred  = clf.predict(X_test_vect)
     train_accur= accuracy_score(y_train , y_pred_train)
-    test_accur =accuracy_score(y_test , y_pred)
+    test_accur =accuracy_score(y_test, y_pred)
     # log train accur and test_accur somewhere
     return clf,train_accur,test_accur
+
+def retrain_mllib():
+    #retrian and export the library
+    clf,train_accur,test_accur = fit_model()
+    dump(clf, 'model.joblib')
+    return clf,train_accur,test_accur
+    
+def load_model(model="model.joblib"):
+    """Grabs model from disk"""
+    clf = load(model)
+    return clf
 
 
 def predict(clf,news):
